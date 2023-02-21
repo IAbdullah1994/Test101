@@ -14,8 +14,7 @@ namespace ConsoleApp1
 
 #endif
             Console.ReadKey();
-            
-            //dsad
+       
         }
     }
 }
