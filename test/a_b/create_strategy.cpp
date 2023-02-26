@@ -11,7 +11,8 @@
 *
 * Written by David Knight
 * www.knightgraphics.co.uk
-*/2650
+* 20021
+*/
 
 #include <core/config.h>
 #include <core/rc.h>
