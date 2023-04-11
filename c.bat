@@ -1,0 +1,6 @@
+setlocal EnableDelayedExpansion
+
+
+
+git add .
+
