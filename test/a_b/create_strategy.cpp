@@ -35,6 +35,8 @@ inline eb::pattern::strategy_ptr create_strategy(const std::string & material, c
     return strategy;
 }
 
+
+
 eb::rc generate_strategy()
 {
 
