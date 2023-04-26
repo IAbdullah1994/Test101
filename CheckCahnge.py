@@ -15,3 +15,9 @@ for r in result:
         files.append(fileName)
 
 print(files)
+f.close()
+
+
+f = open("FileLog.txt", "a")
+for file in files:
+    f.write(file)
