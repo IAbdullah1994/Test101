@@ -1,6 +1,6 @@
 
 files=[]
-f = open("C:\\Users\\modar\\Desktop\\Test101\\result.txt", "r")
+f = open("ChangeLog.txt", "r")
 result =f.read()
 result=result.replace('--- ',"").split('a/')
 print(result)
