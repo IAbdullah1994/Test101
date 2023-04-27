@@ -28,17 +28,15 @@ inline eb::pattern::strategy_ptr create_strategy(const std::string & material, c
 {
     eb::pattern::strategy_ptr strategy = std::make_shared<eb::pattern::strategy>(name, object_type, false);
     strategy->set_material(material);
-    strategy->set_defaults();
 
-    strategies[material][name] = strategy;
 
+ 
     return strategy;
 }
 
 
 
-eb::rc generate_strategy()
-{
+
 
     eb::rc rc;
 
