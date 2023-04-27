@@ -13,14 +13,14 @@
 * www.knightgraphics.co.uk
 * 20021
 */
-
+//545
 #include <core/config.h>
 #include <core/rc.h>
 #include <core/os.h>
 
 #include <pattern/material_autoset.h>
 #include <pattern/strategy.h>
-
+//dsad
 static std::map<std::string, std::map<std::string, eb::pattern::strategy_ptr>> strategies;
 static std::map<std::string, eb::pattern::material_autoset> autosets;
 
