@@ -46,7 +46,7 @@ print(result)
 if result.__len__() != 0:
     f = open(f"{ResultLog}", "w")
     f.write("These files were changed:\n")
-    [f.write(f'{i}\n') for i in result ]
+    [f.write(f'{i} {LastID}\n') for i in result ]
     f.close()
     
      
