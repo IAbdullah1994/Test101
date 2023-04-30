@@ -11,10 +11,12 @@ parser = argparse.ArgumentParser(description='Optional app description')
 parser.add_argument('NameFiles', help='Change log')
 parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
+parser.add_argument('LastID')
 args = parser.parse_args()
 NameFiles = str(args.NameFiles).split('\n')
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
+LastID = args.LastID
 
 
 # Read log Change for Last commit
