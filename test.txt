@@ -3,7 +3,7 @@
 54
 44
 00
-CEREAL_CLASS_VERSION (11);
+version (333);
 {33
 rwe}
 2
