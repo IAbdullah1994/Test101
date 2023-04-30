@@ -1,35 +1,56 @@
-import os
+import os,sys
+import argparse
+
+NameFiles = []
+diff="diff --git "
+version="version"
+
+# Instantiate the parser
+# Get the changed files
+parser = argparse.ArgumentParser(description='Optional app description')
+parser.add_argument('NameFiles', help='Change log')
+parser.add_argument('ResultLog')
+parser.add_argument('ChangeLog')
+args = parser.parse_args()
+NameFiles = str(args.NameFiles).split('\n')
+ResultLog = args.ResultLog
+ChangeLog = args.ChangeLog
 
 
-files=[]
-f = open("ChangeLog.txt", "r")
-result =f.read()
-result=result.replace('--- ',"").split('a/')
-print(result)
-for r in result:
-    if 'version' in r.lower():
-        fileName=""
-        for char in r:
-            if char == " ":
-                break
-            fileName+=char
-        print(fileName)
-        files.append(fileName)
+# Read log Change for Last commit
+f = open(f"C:\\Users\\modar\\Desktop\\Test101\\{ChangeLog}", "r")
+ChangeLog =f.readlines()
+result=[]
+file=""
+is_version=False
 
-print(files)
+for log in ChangeLog:
+    if diff in log : 
+        for NameFile in NameFiles:
+            if NameFile in log:
+                  file=NameFile
+                  NameFiles.remove(file)
+                  break
+        is_version=False       
+        continue
+    if is_version: continue
+    if version in log.lower():
+        is_version=True
+        result.append(file)
+        continue
+    
 f.close()
+print(result)
+if result.__len__() != 0:
+    f = open(f"C:\\Users\\modar\\Desktop\\Test101\\{ResultLog}", "w")
+    f.write("These files were changed:\n")
+    [f.write(f'{i}\n') for i in result ]
+    f.close()
+    
+     
 
 
-# delete previous files first
-#os.system('rm -rf ' + check_mps_file)
-#os.system('rm -rf ' + self.solution_file)
-#cmd = 'cplex -f "' + cplex_command_file + '"'
-#os.system(cmd)
 
-f = open("FileLog.txt", "w")
-for file in files:
-    f.write(f'{file}\n')
-
-eb_build = os.environ.get("log")
-print(eb_build)
-f.write("eb_build")
+# For delete Emtpy item/s
+#result=[x for x in result if x]
+#result=[x.replace('/dev/null','') for x in result if x]
