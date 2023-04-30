@@ -18,7 +18,7 @@ ChangeLog = args.ChangeLog
 
 
 # Read log Change for Last commit
-f = open(f"C:\\Users\\modar\\Desktop\\Test101\\{ChangeLog}", "r")
+f = open(f"{ChangeLog}", "r")
 ChangeLog =f.readlines()
 result=[]
 file=""
@@ -42,7 +42,7 @@ for log in ChangeLog:
 f.close()
 print(result)
 if result.__len__() != 0:
-    f = open(f"C:\\Users\\modar\\Desktop\\Test101\\{ResultLog}", "w")
+    f = open(f"{ResultLog}", "w")
     f.write("These files were changed:\n")
     [f.write(f'{i}\n') for i in result ]
     f.close()
