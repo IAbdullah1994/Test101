@@ -40,13 +40,12 @@ for log in ChangeLog:
         is_version=True
         result.append(file)
         continue
-    
-    
 f.close()
+
 print(result)
 if len(result) != 0:
     f = open(f"{ResultLog}", "w")
-    f.write("These files were changed:\n")
+    f.write("These files were changed:  \n")
     [f.write(f'{i} {LastID}\n') for i in result ]
     f.close()
     
