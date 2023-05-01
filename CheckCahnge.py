@@ -43,7 +43,7 @@ for log in ChangeLog:
     
 f.close()
 print(result)
-if result.__len__() != 0:
+if len(result) != 0:
     f = open(f"{ResultLog}", "w")
     f.write("These files were changed:\n")
     [f.write(f'{i} {LastID}\n') for i in result ]
