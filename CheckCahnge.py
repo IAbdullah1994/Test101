@@ -41,6 +41,7 @@ for log in ChangeLog:
         result.append(file)
         continue
     
+    
 f.close()
 print(result)
 if len(result) != 0:
