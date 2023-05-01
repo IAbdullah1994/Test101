@@ -4,18 +4,10 @@
 4462
 45
 00
-<<<<<<< HEAD
-CEREAL_CLASS_VERSION (3333);
 {33
 rwe}
 2
 232
 545fds234
 456
-=======
-CEREAL_CLASS_VERSION (436)
-);
-{33ytu
-6+
-68
->>>>>>> dfbeebcee7449163c20335a9eaab98d374d51ea8
+
