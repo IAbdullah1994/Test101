@@ -38,7 +38,14 @@ for commitBr in "${branches[@]}" ; do
           rm ChangeLog.txt
       fi
     else 
-    echo NO Found
+    i=1
+    id=($(git log -n $i --pretty=format:%H $VALUE ))
+    echo ${id[-1]}
+    
+    branchname=$(git log -n 1 --pretty="format:%D" $id)
+    branchname=(${branchname//// })
+    branchname=${branchname[1]}
+    echo $branchname
     fi
     echo "$KEY":"$VALUE" >> LastCommitID.temp
 done
