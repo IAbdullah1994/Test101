@@ -1,26 +1,51 @@
-#LastID=$(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(objectname)" | head -1)
-LastID=$(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(objectname)")
-ChangeLog=$(git log -n 1  --pretty=format: -p $LastID | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
-NameFiles=$(git log -n 1 --pretty="format:" --name-only $LastID)
-#LastID=$(git log -n 1 --pretty=format:%h -- )
-echo "$ChangeLog" > ChangeLog.txt
-
-
+branches=($(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(refname:lstrip=3):%(objectname)" | grep -Ev "HEAD"))
+LastCommitID=($(<LastCommitID.log))
 ResultLog=ResultLog.txt
-python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$LastID"
+
+
+declare -A newmap
+for commitBr in "${LastCommitID[@]}" ; do
+    KEY=${commitBr%%:*}
+    VALUE=${commitBr#*:}
+    newmap["$KEY"]="$VALUE"
+done
 
 
 
-if test -f "$ResultLog"; then  
-value="$(<$ResultLog)"
-author=$(git log -n 1 --pretty=format:%an  $LastID)
-# echo $author
-gh issue create --title "Consider incrementing minor version" --body "$value" -a "$author"
-rm $ResultLog
-fi 
-rm ChangeLog.txt
+for commitBr in "${branches[@]}" ; do
+    KEY=${commitBr%%:*}
+    VALUE=${commitBr#*:}
+    echo "$KEY" @ "$VALUE"
+    if test ${newmap["$KEY"]}
+    then
+      val=${newmap[$KEY]}
+      if [ $VALUE != $val ]; then
+          echo $val > val.temp
+          val=$(<val.temp)
+          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
+          echo "$ChangeLog" > ChangeLog.txt
+          NameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE)
+          LastID=$(git log  --pretty=format:%H $val...$VALUE)
+          python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$LastID"
 
-git log -n 100 --pretty=format:%h
-#sleep 10
+          if test -f "$ResultLog"; then  
+          result="$(<$ResultLog)"
+          author=$(git log -n 1 --pretty=format:%an  $VALUE)
+          gh issue create --title "Consider incrementing minor version" --body "$result" -a "$author"
+          rm $ResultLog
+          fi 
+          rm val.temp
+          rm ChangeLog.txt
+      fi
+    else 
+    echo NO Found
+    fi
+    echo "$KEY":"$VALUE" >> LastCommitID.temp
+done
+
+
+
+rm LastCommitID.temp
+sleep 10
 
 

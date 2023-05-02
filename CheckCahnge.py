@@ -25,11 +25,13 @@ LastID = str(args.LastID).split('\n')
 # Read log Change for Last commit
 f = open(f"{ChangeLog}", "r")
 ChangeLog =f.readlines()
-result=[]
 file=""
 is_version=False
 resultdic={}
+id=""
 for log in ChangeLog:
+    if "diff --gitid:" in log:
+       id=log.split(':')[1].replace('\n','')
     if diff in log : 
         for NameFile in NameFiles:
             if NameFile in log:
@@ -42,8 +44,7 @@ for log in ChangeLog:
     if is_version: continue
     if version in log.lower():
         is_version=True
-        resultdic[file]+=f"{LastID[0]} "
-        result.append(file)
+        resultdic[file]+=f"{id} "
         continue
 f.close()
 
