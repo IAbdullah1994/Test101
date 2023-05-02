@@ -13,40 +13,46 @@ parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
 parser.add_argument('LastID')
 args = parser.parse_args()
+
 NameFiles = str(args.NameFiles).split('\n')
+NameFiles = set([x for x in NameFiles if x])
+
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
-LastID = args.LastID
+LastID = str(args.LastID).split('\n')
 
-
+    
 # Read log Change for Last commit
 f = open(f"{ChangeLog}", "r")
 ChangeLog =f.readlines()
 result=[]
 file=""
 is_version=False
-
+resultdic={}
 for log in ChangeLog:
     if diff in log : 
         for NameFile in NameFiles:
             if NameFile in log:
                   file=NameFile
-                  NameFiles.remove(file)
+                  if not file in resultdic.keys():
+                      resultdic[file]=""
                   break
         is_version=False       
         continue
     if is_version: continue
     if version in log.lower():
         is_version=True
+        resultdic[file]+=f"{LastID[0]} "
         result.append(file)
         continue
 f.close()
 
-print(result)
-if len(result) != 0:
+resultdic={k: v for k, v in resultdic.items() if v}
+print(resultdic)
+if len(resultdic) != 0:
     f = open(f"{ResultLog}", "w")
     f.write("These files were changed:  \n")
-    [f.write(f'{i} {LastID}\n') for i in result ]
+    [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
     f.close()
     
      
