@@ -42,42 +42,36 @@ for commitBr in "${branches[@]}" ; do
     else 
     i=1
     id=($(git log -n $i --pretty=format:%H $VALUE ))
-    # echo ${id[-1]}
     curnetid=${id[-1]}
     branchname=$(git log -n 1 --pretty="format:%D" $curnetid)
     branchname=(${branchname//// })
     branchname=${branchname[1]}
     echo $KEY
     echo $branchname
-    while ( [ "$branchname" == "$KEY" ] ) 
+    while ( [ "$branchname" == "$KEY" ] || [ "" == "$branchname" ] ) 
     do
+            echo $i
             i=$(( $i + 1 ))
             id=($(git log -n $i --pretty=format:%H $VALUE ))
             curnetid=${id[-1]}
             branchname=$(git log -n 1 --pretty="format:%D" $curnetid)
-            echo $branchname Ho
             branchname=(${branchname//// })
             branchname=${branchname[1]}
-            
-    done
+    done;
+    ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $curnetid...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
+    echo $ChangeLog done...
+    echo "$ChangeLog" > ChangeLog.txt
+    NameFiles=$(git log  --pretty="format:" --name-only $curnetid...$VALUE)
+    LastID=$(git log  --pretty=format:%H $curnetid...$VALUE)
+    python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$LastID"
 
-
-
-
-    # ChangeLog=$(git log -n 1 --pretty=format:'diff --gitid:%H'  -p $VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
-    # echo "$ChangeLog" > ChangeLog.txt
-    # NameFiles=$(git log -n 1 --pretty="format:" --name-only $VALUE)
-    # LastID=$(git log -n 1 --pretty=format:%H $VALUE)
-    # python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$LastID"
-
-    # if test -f "$ResultLog"; then  
-    # result="$(<$ResultLog)"
-    # author=$(git log -n 1 --pretty=format:%an  $VALUE)
-    # gh issue create --title "Consider incrementing minor version" --body "$result" -a "$author"
-    # rm $ResultLog
-    # fi 
-    # rm val.temp
-    # rm ChangeLog.txt
+    if test -f "$ResultLog"; then  
+    result="$(<$ResultLog)"
+    author=$(git log -n 1 --pretty=format:%an  $VALUE)
+    gh issue create --title "Consider incrementing minor version branch name $KEY" --body "$result" -a "$author"
+    rm $ResultLog
+    fi 
+    rm ChangeLog.txt
     fi
     echo "$KEY":"$VALUE" >> LastCommitID.temp
 done
@@ -85,6 +79,7 @@ done
 
 
 mv LastCommitID.temp LastCommitID.log
+
 #sleep 100
 
 
