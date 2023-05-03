@@ -40,12 +40,25 @@ for commitBr in "${branches[@]}" ; do
     else 
     i=1
     id=($(git log -n $i --pretty=format:%H $VALUE ))
-    echo ${id[-1]}
-    
-    branchname=$(git log -n 1 --pretty="format:%D" $id)
+    # echo ${id[-1]}
+    curnetid=${id[-1]}
+    branchname=$(git log -n 1 --pretty="format:%D" $curnetid)
     branchname=(${branchname//// })
     branchname=${branchname[1]}
+    echo $KEY
     echo $branchname
+    while ( [ "$branchname" == "$KEY" ] ) 
+    do
+            i=$(( $i + 1 ))
+            id=($(git log -n $i --pretty=format:%H $VALUE ))
+            curnetid=${id[-1]}
+            branchname=$(git log -n 1 --pretty="format:%D" $curnetid)
+            echo $branchname Ho
+            branchname=(${branchname//// })
+            branchname=${branchname[1]}
+            
+    done
+
     fi
     echo "$KEY":"$VALUE" >> LastCommitID.temp
 done
@@ -53,6 +66,6 @@ done
 
 
 rm LastCommitID.temp
-sleep 10
+sleep 100
 
 
