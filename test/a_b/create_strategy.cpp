@@ -13,7 +13,7 @@
 * www.knightgraphics.co.uk
 * 20021
 */
-//545
+//VERSION 545
 #include <core/config.h>
 #include <core/rc.h>
 #include <core/os.h>
