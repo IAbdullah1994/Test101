@@ -37,6 +37,7 @@ for commitBr in "${branches[@]}" ; do
           fi 
           rm val.temp
           rm ChangeLog.txt
+          
       fi
     else 
     i=1
