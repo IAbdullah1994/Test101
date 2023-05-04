@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(description='Optional app description')
 parser.add_argument('NameFiles', help='Change log')
 parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
-# parser.add_argument('CommitsIDs')
+parser.add_argument('LastID')
 args = parser.parse_args()
 
 NameFiles = str(args.NameFiles).split('\n')
@@ -19,7 +19,7 @@ NameFiles = set([x for x in NameFiles if x])
 
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
-# LastID = str(args.CommitsIDs).split('\n')
+LastID = str(args.LastID).split('\n')
 
     
 # Read log Change for Last commit

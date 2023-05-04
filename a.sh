@@ -65,7 +65,7 @@ for commitBr in "${branches[@]}" ; do
     echo "$ChangeLog" > ChangeLog.txt
     NameFiles=$(git log  --pretty="format:" --name-only $curnetid...$VALUE)
     commitsIDs=$(git log  --pretty=format:%H $curnetid...$VALUE)
-    python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" 
+    python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$commitsIDs"
 
     if test -f "$ResultLog"; then  
     result="$(<$ResultLog)"
