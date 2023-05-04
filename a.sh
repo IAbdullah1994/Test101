@@ -26,8 +26,8 @@ for commitBr in "${branches[@]}" ; do
           ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
           echo "$ChangeLog" > ChangeLog.txt
           NameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE)
-          LastID=$(git log  --pretty=format:%H $val...$VALUE)
-          python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$LastID"
+          commitsIDs=$(git log  --pretty=format:%H $val...$VALUE)
+          python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" "$commitsIDs"
 
           if test -f "$ResultLog"; then  
           result="$(<$ResultLog)"
