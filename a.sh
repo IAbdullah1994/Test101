@@ -1,6 +1,6 @@
 git remote prune origin
 branches=($(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(refname:lstrip=3):%(objectname)" | grep -Ev "HEAD"))
-LastCommitID=($(<LastCommitID.log))
+LastCommitID=($(<BranchCommitID.log))
 ResultLog=ResultLog.txt
 
 
@@ -60,13 +60,14 @@ for commitBr in "${branches[@]}" ; do
             branchname=${branchname[1]}
             echo $branchname
     done
-
+    echo "Not Found"
+    fi
     echo "$KEY":"$VALUE" >> LastCommitID.temp
 done
 
 
 
-# mv LastCommitID.temp LastCommitID.log
+mv LastCommitID.temp LastCommitID.log
 
 #sleep 100
 
