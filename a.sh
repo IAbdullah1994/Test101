@@ -60,27 +60,13 @@ for commitBr in "${branches[@]}" ; do
             branchname=${branchname[1]}
             echo $branchname
     done
-    ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $curnetid...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
-    echo $ChangeLog done...
-    echo "$ChangeLog" > ChangeLog.txt
-    NameFiles=$(git log  --pretty="format:" --name-only $curnetid...$VALUE)
-    # commitsIDs=$(git log  --pretty=format:%H $curnetid...$VALUE)
-    python CheckCahnge.py "$NameFiles" $ResultLog "ChangeLog.txt" 
 
-    if test -f "$ResultLog"; then  
-    result="$(<$ResultLog)"
-    author=$(git log -n 1 --pretty=format:%an  $VALUE)
-    gh issue create --title "Consider incrementing minor version branch name $KEY" --body "$result" -a "$author"
-    rm $ResultLog
-    fi 
-    rm ChangeLog.txt
-    fi
     echo "$KEY":"$VALUE" >> LastCommitID.temp
 done
 
 
 
-mv LastCommitID.temp LastCommitID.log
+# mv LastCommitID.temp LastCommitID.log
 
 #sleep 100
 
