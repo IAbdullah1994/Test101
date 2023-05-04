@@ -34,7 +34,7 @@ for log in ChangeLog:
        id=log.split(':')[1].replace('\n','')
     if diff in log : 
         for NameFile in NameFiles:
-            if NameFile in log:
+            if   log.startswith(NameFile):
                   file=NameFile
                   if not file in resultdic.keys():
                       resultdic[file]=""

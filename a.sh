@@ -40,6 +40,7 @@ for commitBr in "${branches[@]}" ; do
           
       fi
     else 
+    #This 
     i=1
     id=($(git log -n $i --pretty=format:%H $VALUE ))
     curnetid=${id[-1]}
@@ -79,7 +80,7 @@ done
 
 
 
-# mv LastCommitID.temp LastCommitID.log
+mv LastCommitID.temp LastCommitID.log
 
 #sleep 100
 
