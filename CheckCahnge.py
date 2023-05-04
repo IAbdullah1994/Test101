@@ -30,7 +30,7 @@ is_version=False
 resultdic={}
 id=""
 for log in ChangeLog:
-    if "diff --gitid:" in log:
+    if log.startswith("diff --gitid:"):
        id=log.split(':')[1].replace('\n','')
     if diff in log : 
         for NameFile in NameFiles:

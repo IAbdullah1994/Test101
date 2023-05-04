@@ -21,7 +21,6 @@ for commitBr in "${branches[@]}" ; do
     then
       val=${newmap[$KEY]}
       if [ $VALUE != $val ]; then
-          git checkout $VALUE
           echo $val > val.temp
           val=$(<val.temp)
           ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
@@ -41,7 +40,6 @@ for commitBr in "${branches[@]}" ; do
           
       fi
     else 
-    git checkout $VALUE
     i=1
     id=($(git log -n $i --pretty=format:%H $VALUE ))
     curnetid=${id[-1]}
@@ -59,10 +57,10 @@ for commitBr in "${branches[@]}" ; do
             branchname=$(git log -n 1 --pretty="format:%D" $curnetid)
             branchname=(${branchname//// })
             branchname=${branchname[1]}
-            #git branch -r --contain $curnetid
             echo $branchname
-    done;
+    done
     ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $curnetid...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
+    echo $ChangeLog done...
     echo "$ChangeLog" > ChangeLog.txt
     NameFiles=$(git log  --pretty="format:" --name-only $curnetid...$VALUE)
     LastID=$(git log  --pretty=format:%H $curnetid...$VALUE)
@@ -83,6 +81,6 @@ done
 
 # mv LastCommitID.temp LastCommitID.log
 
-sleep 100
+#sleep 100
 
 
