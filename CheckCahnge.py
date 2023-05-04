@@ -32,7 +32,7 @@ id=""
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
        id=log.split(':')[1].replace('\n','')
-    if diff in log : 
+    if log.startswith(diff) : 
         for NameFile in NameFiles:
             if NameFile in log :
                   file=NameFile
