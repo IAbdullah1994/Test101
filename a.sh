@@ -40,7 +40,7 @@ for commitBr in "${branches[@]}" ; do
           
       fi
     else 
-    #This 
+    # For processing new branch
     i=1
     id=($(git log -n $i --pretty=format:%H $VALUE ))
     curnetid=${id[-1]}
@@ -62,12 +62,12 @@ for commitBr in "${branches[@]}" ; do
     done
     echo "Not Found"
     fi
-    echo "$KEY":"$VALUE" >> LastCommitID.temp
+    echo "$KEY":"$VALUE" >> BranchCommitID.temp
 done
 
 
 
-mv LastCommitID.temp LastCommitID.log
+mv BranchCommitID.temp BranchCommitID.log
 
 #sleep 100
 
