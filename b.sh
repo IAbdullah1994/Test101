@@ -1,6 +1,6 @@
 file=Branches.log
 if test -f "$file"; then  
-rm $file
+    rm $file
 fi
 
 for j in {0..5}
