@@ -72,8 +72,6 @@ mv BranchCommitID.temp BranchCommitID.log
 #sleep 100
 
 # sh=C:/Git/usr/bin/
-
 # git remote prune origin
-# branches=($(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(objectname):%(refname:lstrip=3)" | "$sh"grep -Ev "HEAD" ))
-# LastCommitID=($(<LastCommitID.log))
-# echo ""
+# branches=$(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(refname:lstrip=3):%(objectname)" | "$sh"grep -Ev "HEAD" )
+#  echo "$branches" > issa.txt
