@@ -3,7 +3,7 @@ if test -f "$file"; then
 rm $file
 fi
 
-for j in {0..50}
+for j in {0..5}
 do
     branches=($( git ls-remote --heads  https://github.com/DevIssaAb/Test101.git ))
     LastBranches=($(<LastBranches.log))
