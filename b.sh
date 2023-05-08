@@ -19,7 +19,6 @@ do
 
     i=0
     VALUE=""
-
     for commitBr in "${branches[@]}"; do
         if [ $i == 1 ]; then
           #replace refs/heads/<Branch Name> to <Branch Name>
@@ -27,9 +26,7 @@ do
           KEY="${KEY////$' '}" 
           KEY="${KEY/refs heads /""}" 
           if ! test ${newmap["$KEY"]}; then
-           
             echo "$KEY":"$VALUE" >> $file
-         
           fi
           echo "$KEY":"$VALUE" >> LastBranches.temp
           i=0
@@ -38,12 +35,7 @@ do
           i=$(($i + 1))
         fi
     done
-
     echo $j
-    
-  
-
-    
     mv LastBranches.temp LastBranches.log
 done
 
