@@ -26,7 +26,7 @@ do
           KEY="${KEY////$' '}" 
           KEY="${KEY/refs heads /""}" 
           if ! test ${newmap["$KEY"]}; then
-            echo "$KEY":"$VALUE" >> $file
+            echo "$KEY":"$VALUE">> $file
           fi
           echo "$KEY":"$VALUE" >> LastBranches.temp
           i=0
@@ -37,6 +37,7 @@ do
     done
     echo $j
     mv LastBranches.temp LastBranches.log
+    sleep 5
 done
 
 if test -f "$file"; then  
