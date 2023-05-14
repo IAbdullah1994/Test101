@@ -80,8 +80,3 @@ if len(sqldic) != 0:
 # For delete Emtpy item/s
 #result=[x for x in result if x]
 #result=[x.replace('/dev/null','') for x in result if x]
-
-
-# if file.startswith(path_sql) and file.endswith(ex):
-#     f = open(f"sql.log", "w")
-#     f.write(f"{file}  \n")
