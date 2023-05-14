@@ -45,7 +45,7 @@ for commitBr in "${branches[@]}" ; do
 
           if test -f "$ResultLog"; then  
               result="$(<$ResultLog)"
-              author=$(git log -n 1 --pretty=format:%an  $VALUE)
+              author=$(git log -n 1 --pretty=format:%an  $VALUE) # $VALUE is commit ID
               gh issue create --title "Consider incrementing minor version branch: $KEY" --body "$result" -a "$author"
               rm $ResultLog
           fi 
