@@ -14,7 +14,7 @@ def CheckPR(filename,commitIDs):
     os.system(f"cmd.bat")
     os.system(f"del cmd.bat")
     f = open("ID.txt", "r")
-    fileId=f.readline()
+    fileId=str(f.readline()).replace("\n","")
     f.close()
     os.system(f"del ID.txt")
     if fileId in commitIDs:
@@ -80,12 +80,12 @@ for log in ChangeLog:
 f.close()
 
 # To remove empty files not have commitIds
-resultdic={k: v for k, v in resultdic.items() if v}
+resultdic={k: v for k, v in resultdic.items() if v and CheckPR(k,v)}
 print(resultdic)
 if len(resultdic) != 0:
     f = open(f"{ResultLog}", "w")
     f.write("Version strings in these files have changed:\n")
-    [f.write(f'{k} {v} \n') for k, v in resultdic.items() if CheckPR(k,v)]
+    [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
     f.write("_____________________________________  \n")
     f.close()
 
