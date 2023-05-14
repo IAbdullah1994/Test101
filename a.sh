@@ -1,8 +1,18 @@
+sh=C:/Git/usr/bin/
+
 git remote prune origin
 branches=($(git for-each-ref refs/remotes/origin --sort="-committerdate" --format="%(refname:lstrip=3):%(objectname)" | grep -Ev "HEAD"))
+
+# if BranchCommitID.log is not exit
+if ! test -f "BranchCommitID.log"; then  
+    for commitBr in "${branches[@]}" ; do
+        echo "$commitBr" >> BranchCommitID.log
+    done
+    exit 0
+fi
+
 LastCommitID=($(<BranchCommitID.log))
 ResultLog=ResultLog.txt
-
 
 declare -A newmap
 for commitBr in "${LastCommitID[@]}" ; do
@@ -61,7 +71,7 @@ for commitBr in "${branches[@]}" ; do
     # echo "$KEY":"$VALUE" >> BranchCommitID.temp
 done
 mv BranchCommitID.temp BranchCommitID.log
-sleep 5
+sleep 100
 
 
 

@@ -1,3 +1,27 @@
+sh=C:/Git/usr/bin/
+
+# if LastBranches.log is not exit
+if ! test -f "LastBranches.log"; then  
+    branches=($( git ls-remote --heads  https://github.com/DevIssaAb/Test101.git ))
+    i=0
+    VALUE=""
+    for commitBr in "${branches[@]}"; do
+        if [ $i == 1 ]; then
+          #replace refs/heads/<Branch Name> to <Branch Name>
+          KEY="$commitBr"
+          KEY="${KEY////$' '}" 
+          KEY="${KEY/refs heads /""}" 
+          echo "$KEY":"$VALUE" >> LastBranches.log
+          i=0
+        else
+          VALUE=$commitBr
+          i=$(($i + 1))
+        fi
+    done
+    exit 0
+fi
+
+
 file=Branches.log
 if test -f "$file"; then  
     rm $file
