@@ -61,7 +61,7 @@ for commitBr in "${branches[@]}" ; do
     # echo "$KEY":"$VALUE" >> BranchCommitID.temp
 done
 mv BranchCommitID.temp BranchCommitID.log
-sleep 100
+sleep 5
 
 
 
