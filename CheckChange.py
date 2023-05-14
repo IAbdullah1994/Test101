@@ -63,12 +63,12 @@ if len(resultdic) != 0:
     f = open(f"{ResultLog}", "w")
     f.write("These files were changed:  \n")
     [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
+    f.write("_____________________________________  \n")
     f.close()
 
 print(sqldic)
 if len(sqldic) != 0:
     f = open(f"{ResultLog}", "a")
-    f.write("_____________________________________  \n")
     f.write("These files were changed:  \n")
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
