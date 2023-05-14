@@ -40,7 +40,7 @@ for log in ChangeLog:
                   break
         is_version=False       
         continue
-    if log.startswith("path_sql"):
+    if log.startswith(path_sql):
         f = open(f"sql.log", "w")
         f.write(f"{file}  \n")
     if is_version: continue
