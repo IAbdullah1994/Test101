@@ -27,6 +27,7 @@ ChangeLog =f.readlines()
 file=""
 is_version=False
 resultdic={}
+sqldic={}
 id=""
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
@@ -37,12 +38,17 @@ for log in ChangeLog:
                   file=NameFile
                   if not file in resultdic.keys():
                       resultdic[file]=""
+                  
+                  # Check if test/sql/*.sql changing
+                  if file.startswith(path_sql) and file.endswith(ex):
+                      if file in sqldic.keys():
+                          sqldic[file]+=f"{id} "
+                      else:
+                          sqldic[file]=f"{id} "
                   break
         is_version=False       
         continue
-    if log.startswith(path_sql):
-        f = open(f"sql.log", "w")
-        f.write(f"{file}  \n")
+
     if is_version: continue
     if version in log.lower():
         is_version=True
@@ -58,6 +64,14 @@ if len(resultdic) != 0:
     f.write("These files were changed:  \n")
     [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
     f.close()
+
+
+if len(sqldic) != 0:
+    f = open(f"{ResultLog}", "a")
+    f.write("_____________________________________  \n")
+    f.write("These files were changed:  \n")
+    [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
+    f.close()
     
      
 
@@ -66,3 +80,8 @@ if len(resultdic) != 0:
 # For delete Emtpy item/s
 #result=[x for x in result if x]
 #result=[x.replace('/dev/null','') for x in result if x]
+
+
+# if file.startswith(path_sql) and file.endswith(ex):
+#     f = open(f"sql.log", "w")
+#     f.write(f"{file}  \n")
