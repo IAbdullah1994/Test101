@@ -61,7 +61,7 @@ resultdic={k: v for k, v in resultdic.items() if v}
 print(resultdic)
 if len(resultdic) != 0:
     f = open(f"{ResultLog}", "w")
-    f.write("These files were changed:  \n")
+    f.write("Version strings in these files have changed:\n")
     [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
     f.write("_____________________________________  \n")
     f.close()
@@ -69,7 +69,7 @@ if len(resultdic) != 0:
 print(sqldic)
 if len(sqldic) != 0:
     f = open(f"{ResultLog}", "a")
-    f.write("These files were changed:  \n")
+    f.write("These SQL files have changed:\n")
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
     
