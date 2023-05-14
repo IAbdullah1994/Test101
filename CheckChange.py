@@ -65,7 +65,7 @@ if len(resultdic) != 0:
     [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
     f.close()
 
-
+print(sqldic)
 if len(sqldic) != 0:
     f = open(f"{ResultLog}", "a")
     f.write("_____________________________________  \n")
