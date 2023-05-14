@@ -3,7 +3,8 @@ import argparse
 NameFiles = []
 diff="diff --git "
 version="version"
-path_sql="test\\sql"
+path_sql="test/sql"
+ex=".sql"
 
 # Instantiate the parser
 # Get the changed files
