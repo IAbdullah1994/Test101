@@ -34,6 +34,7 @@ for commitBr in "${branches[@]}" ; do
     echo "$KEY" @ "$VALUE"
     if test ${newmap["$KEY"]}
     then
+      git checkout $VALUE
       val=${newmap[$KEY]}
       if [ $VALUE != $val ]; then
           echo $val > val.temp
@@ -60,7 +61,7 @@ for commitBr in "${branches[@]}" ; do
     # echo "$KEY":"$VALUE" >> BranchCommitID.temp
 done
 mv BranchCommitID.temp BranchCommitID.log
-sleep 5
+sleep 100
 
 
 
