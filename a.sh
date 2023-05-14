@@ -34,7 +34,7 @@ for commitBr in "${branches[@]}" ; do
     echo "$KEY" @ "$VALUE"
     if test ${newmap["$KEY"]}
     then
-      git checkout $VALUE
+      # git checkout $VALUE
       val=${newmap[$KEY]}
       if [ $VALUE != $val ]; then
           echo $val > val.temp
