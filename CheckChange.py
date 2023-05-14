@@ -3,6 +3,7 @@ import argparse
 NameFiles = []
 diff="diff --git "
 version="version"
+path_sql="test\\sql"
 
 # Instantiate the parser
 # Get the changed files
@@ -38,6 +39,9 @@ for log in ChangeLog:
                   break
         is_version=False       
         continue
+    if log.startswith("path_sql"):
+        f = open(f"sql.log", "w")
+        f.write(f"{file}  \n")
     if is_version: continue
     if version in log.lower():
         is_version=True
