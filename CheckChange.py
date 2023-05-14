@@ -45,6 +45,7 @@ for log in ChangeLog:
         continue
 f.close()
 
+# To remove empty files not have commitIds
 resultdic={k: v for k, v in resultdic.items() if v}
 print(resultdic)
 if len(resultdic) != 0:
