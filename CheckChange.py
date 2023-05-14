@@ -1,4 +1,27 @@
 import argparse
+import os,sys
+import subprocess
+
+def CheckPR(filename,commitIDs):
+    filename=str(filename).replace("/","\\")
+    cmd="setlocal EnableDelayedExpansion\n"
+    cmd += f"set " + f'"cmd=git log -n 1 --pretty=format:%%H -- {filename}"' +"\n"
+    cmd += f"for /f %%a in ('!cmd!') do set id=%%a\n"
+    cmd += f"echo %id% > ID.txt"
+    f = open("cmd.bat", "w")
+    f.write(cmd)
+    f.close()
+    os.system(f"cmd.bat")
+    os.system(f"del cmd.bat")
+    f = open("ID.txt", "r")
+    fileId=f.readline()
+    f.close()
+    os.system(f"del ID.txt")
+    if fileId in commitIDs:
+        return True
+    else:
+        return False
+
 
 NameFiles = []
 diff="diff --git "
@@ -62,7 +85,7 @@ print(resultdic)
 if len(resultdic) != 0:
     f = open(f"{ResultLog}", "w")
     f.write("Version strings in these files have changed:\n")
-    [f.write(f'{k} {v} \n') for k, v in resultdic.items() ]
+    [f.write(f'{k} {v} \n') for k, v in resultdic.items() if CheckPR(k,v)]
     f.write("_____________________________________  \n")
     f.close()
 
