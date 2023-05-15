@@ -67,7 +67,7 @@ for commitBr in "${branches[@]}" ; do
     echo "$KEY" @ "$VALUE"
     if test ${newmap["$KEY"]}
     then
-      git checkout $VALUE
+      # git checkout $VALUE
       val=${newmap[$KEY]}
       if [ $VALUE != $val ]; then
 
@@ -76,7 +76,7 @@ for commitBr in "${branches[@]}" ; do
           val=$(<val.temp)
 
           # This command fetches the changelog within a specified range between two commits.
-          # /dev/null /dev/null in the log indicating whether the file was deleted or added.
+          # /dev/null in the log indicating whether the file was deleted or added.
           # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID
           ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE  | grep  '^[diff+-]' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
          
