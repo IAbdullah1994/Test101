@@ -4,7 +4,7 @@
 # This runs every minute, and checks 5 times with a delay betwen
 ###
 
-# To use shell git function
+# To use shell git functions
 sh=C:/Git/usr/bin/
 
 # This command it work without local repo in local PC
