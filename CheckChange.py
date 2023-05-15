@@ -2,7 +2,7 @@ import argparse
 import os,sys
 import subprocess
 
-# need add "git checkout $VALUE" in shell secript to work right
+# need add "git checkout $VALUE" in shell script to work right
 def CheckPR(filename,commitIDs):
     filename=str(filename).replace("/","\\")
     cmd="setlocal EnableDelayedExpansion\n"
