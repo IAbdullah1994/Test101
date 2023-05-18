@@ -4,7 +4,10 @@
 44
 45
 00
-Version 1111
+Version 1111 cereal
 rwe}
 2
 issa
+
+log.lower()
+cereal-Version

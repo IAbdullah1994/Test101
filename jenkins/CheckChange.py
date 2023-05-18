@@ -27,6 +27,7 @@ def CheckPR(filename,commitIDs):
 NameFiles = []
 diff="diff --git "
 version="version"
+cereal="cereal"
 path_sql="test/sql"
 ex=".sql"
 
@@ -74,7 +75,7 @@ for log in ChangeLog:
         continue
 
     if is_version: continue
-    if version in log.lower():
+    if version in log.lower() and cereal in log.lower():
         is_version=True
         resultdic[file]+=f"{id} "
         continue
