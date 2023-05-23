@@ -33,6 +33,12 @@ fi
 # It is passed as a parameter within the python file (jenkins\CheckChange.py)
 ResultLog=ResultLog.txt
 
+# if fiuler job
+filetemp=BranchCommitID.temp
+if test -f "$filetemp"; then  
+    rm $filetemp
+fi
+
 # The content of the file (BranchCommitID.log) is read and converted into a dictionary
 LastCommitID=($(<BranchCommitID.log))
 declare -A newmap
