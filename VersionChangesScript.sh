@@ -86,6 +86,7 @@ for commitBr in "${branches[@]}" ; do
           # This command fetches the changelog within a specified range between two commits.
           # /dev/null in the log indicating whether the file was deleted or added.
           # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID 
+          # The subcommand  ("$sh"grep -i 'diff --git\|cereal\|version') is used to display only the lines containing the words (diff --git OR cereal OR version) inside Log regardless if uppercase or lowercase letters
           ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff --git\|cereal\|version' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
          
           # Store changes log in a text file (ChangeLog.txt) and pass them to the Python file (jenkins\CheckChange.py).
@@ -95,7 +96,7 @@ for commitBr in "${branches[@]}" ; do
           GetNameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
           
           # This processing was added to the filenames to remove duplicates, then it was printed into a text file (FileNames.txt) 
-          # and the filename was passed to the Python script (CheckChange.py).
+          # and the filename was passed to the Python script (jenkins\CheckChange.py).
           # Create an associative array
           declare -A unique_list
           # Loop through the input list and add elements to the associative array
