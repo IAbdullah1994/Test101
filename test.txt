@@ -10,4 +10,5 @@ rwe}
 issa555
 diff 166655
 log.lower()
-cereal_Version 55555
+cereal_Version 0000
+CEREAl 555 _Version 777
