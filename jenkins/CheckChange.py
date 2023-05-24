@@ -43,7 +43,7 @@ args = parser.parse_args()
 NameFiles = args.NameFiles
 f = open(f"{NameFiles}", "r", errors="ignore")
 NameFiles = f.readlines()
-NameFiles = set([x for x in NameFiles if x])
+NameFiles = set([x.replace("\n","") for x in NameFiles if x])
 f.close()
 
 ResultLog = args.ResultLog
