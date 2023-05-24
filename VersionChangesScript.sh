@@ -95,7 +95,7 @@ for commitBr in "${branches[@]}" ; do
           echo "$GetNameFiles" > $NameFiles
 
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
-          python jenkins\\CheckChange.py $NameFiles $ResultLog "ChangeLog.txt" 
+          python jenkins\\CheckChange.py "$GetNameFiles" $ResultLog "ChangeLog.txt" 
 
           # In the case of the Python file (jenkins\CheckChange.py) creating the results file, create an issue.
           if test -f "$ResultLog"; then  
