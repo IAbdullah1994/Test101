@@ -87,7 +87,7 @@ for commitBr in "${branches[@]}" ; do
           # /dev/null in the log indicating whether the file was deleted or added.
           # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID 
           # The subcommand  ("$sh"grep -i 'diff --git\|cereal\|version') is used to display only the lines containing the words (diff --git OR cereal OR version) inside Log regardless if uppercase or lowercase letters
-          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff --git\|cereal\|version' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
+          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep  -e 'diff --git' -e 'cereal\|version'$  | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
          
           # Store changes log in a text file (ChangeLog.txt) and pass them to the Python file (jenkins\CheckChange.py).
           echo "$ChangeLog" > $ChangeLogs
@@ -125,7 +125,7 @@ for commitBr in "${branches[@]}" ; do
               rm $ResultLog
           fi 
           rm val.temp
-          rm $ChangeLogs
+          # rm $ChangeLogs
           rm $FileNames
       fi
       echo "$KEY":"$VALUE" >> BranchCommitID.temp
