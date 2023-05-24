@@ -39,15 +39,19 @@ parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
 args = parser.parse_args()
 
-NameFiles = str(args.NameFiles).split('\n')
+# NameFiles = str(args.NameFiles).split('\n')
+NameFiles = args.NameFiles
+f = open(f"{NameFiles}", "r", errors="ignore")
+NameFiles = f.readlines()
 NameFiles = set([x for x in NameFiles if x])
+f.close()
 
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
 
     
 # Read log Change for Last commit
-f = open(f"{ChangeLog}", "r")
+f = open(f"{ChangeLog}", "r", errors="ignore")
 ChangeLog =f.readlines()
 file=""
 is_version=False
