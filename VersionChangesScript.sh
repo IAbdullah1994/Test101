@@ -90,8 +90,8 @@ for commitBr in "${branches[@]}" ; do
           echo "$ChangeLog" > ChangeLog.txt
          
           # This command fetches the names of the files that have changed between two fields of the two commits.
-          NameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE)
-
+          NameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) | xargs -n1 | sort -u | xargs
+          echo "$NameFiles" > NameFiles.txt
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
           python jenkins\\CheckChange.py "$NameFiles" $ResultLog "ChangeLog.txt" 
 
