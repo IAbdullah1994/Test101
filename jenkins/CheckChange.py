@@ -39,14 +39,18 @@ parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
 args = parser.parse_args()
 
-NameFiles = str(args.NameFiles).split('\n')
-NameFiles = set([x for x in NameFiles if x])
-# NameFiles = args.NameFiles
-# f = open(f"{NameFiles}", "r", errors="ignore")
-# NameFiles = f.readlines()
+# NameFiles = str(args.NameFiles).split('\n')
 # NameFiles = set([x for x in NameFiles if x])
-# NameFiles = [x.replace("\n","") for x in NameFiles]
-# f.close()
+NameFiles = args.NameFiles
+f = open(f"{NameFiles}", "r", errors="ignore")
+NameFiles = f.readlines()
+NameFiles = [x.replace("\n","") for x in NameFiles]
+f.close()
+
+for NameFile in NameFiles:
+    print("hi")
+    print(NameFile)
+
 
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog

@@ -92,10 +92,25 @@ for commitBr in "${branches[@]}" ; do
          
           # This command fetches the names of the files that have changed between two fields of the two commits.
           GetNameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
-          echo "$GetNameFiles" > $NameFiles
+          # echo "$GetNameFiles" > $NameFiles
+
+
+          # Create an associative array
+          declare -A unique_list
+          # Loop through the input list and add elements to the associative array
+          for k in $GetNameFiles ; do unique_list[$k]=1 ; done
+          
+          # Extract the unique elements from the associative array
+          unique_array=("${!unique_list[@]}")
+
+          # Print the unique elements
+          for element in "${unique_array[@]}"; do
+            echo "$element" >> $NameFiles
+          done
+         
 
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
-          python jenkins\\CheckChange.py "$GetNameFiles" $ResultLog "ChangeLog.txt" 
+          python jenkins\\CheckChange.py $NameFiles $ResultLog "ChangeLog.txt" 
 
           # In the case of the Python file (jenkins\CheckChange.py) creating the results file, create an issue.
           if test -f "$ResultLog"; then  
@@ -119,6 +134,6 @@ for commitBr in "${branches[@]}" ; do
 done
 
 # Updating the BranchCommitID.log to store the last processed commit ID for the branches
-mv BranchCommitID.temp BranchCommitID.log
+# mv BranchCommitID.temp BranchCommitID.log
 
 sleep 1000
