@@ -47,9 +47,6 @@ NameFiles = f.readlines()
 NameFiles = [x.replace("\n","") for x in NameFiles]
 f.close()
 
-for NameFile in NameFiles:
-    print("hi")
-    print(NameFile)
 
 
 ResultLog = args.ResultLog

@@ -92,8 +92,6 @@ for commitBr in "${branches[@]}" ; do
          
           # This command fetches the names of the files that have changed between two fields of the two commits.
           GetNameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
-          # echo "$GetNameFiles" > $NameFiles
-
 
           # Create an associative array
           declare -A unique_list
