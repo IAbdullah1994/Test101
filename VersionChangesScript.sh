@@ -106,7 +106,7 @@ for commitBr in "${branches[@]}" ; do
               rm $ResultLog
           fi 
           rm val.temp
-          # rm ChangeLog.txt
+          rm ChangeLog.txt
       fi
       echo "$KEY":"$VALUE" >> BranchCommitID.temp
     else 
