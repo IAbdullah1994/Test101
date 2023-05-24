@@ -4,10 +4,10 @@ issa sads
 666
 45
 00
-Version 6544 Cereal 8886
+Version 6544 Cereal 8888
 rwe}
 2
 issa
 diff 100
 log.lower()
-cereal_Version 5556
+cereal_Version 8888
