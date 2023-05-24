@@ -84,7 +84,7 @@ for commitBr in "${branches[@]}" ; do
           # This command fetches the changelog within a specified range between two commits.
           # /dev/null in the log indicating whether the file was deleted or added.
           # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID  '^[diff+-]'  
-          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff\|cereal\|version' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
+          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff --git\|cereal\|version' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
          
           # Store changes log in a text file (ChangeLog.txt) and pass them to the Python file (jenkins\CheckChange.py).
           echo "$ChangeLog" > ChangeLog.txt
