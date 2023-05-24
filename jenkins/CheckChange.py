@@ -89,7 +89,7 @@ for log in ChangeLog:
 f.close()
 
 # To remove empty files not have commitIds
-resultdic={k: v for k, v in resultdic.items() if v and CheckPR(k,v)}
+resultdic={k: v for k, v in resultdic.items() if v } # and CheckPR(k,v)
 print(resultdic)
 if len(resultdic) != 0:
     f = open(f"{ResultLog}", "w")
