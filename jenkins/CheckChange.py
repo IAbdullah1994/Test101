@@ -1,7 +1,8 @@
 import argparse
-import os,sys
-import subprocess
+import os
 
+# Not used at the moment
+# Related in case of PR at merger
 # need add "git checkout $VALUE" in shell script to work right
 def CheckPR(filename,commitIDs):
     filename=str(filename).replace("/","\\")
@@ -23,8 +24,9 @@ def CheckPR(filename,commitIDs):
     else:
         return False
 
+############################################
 
-NameFiles = []
+# Variables included in the conditions during processing
 diff="diff --git "
 version="version"
 cereal="cereal"
@@ -38,29 +40,36 @@ parser.add_argument('NameFiles', help='Change log')
 parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
 args = parser.parse_args()
-
-# NameFiles = str(args.NameFiles).split('\n')
-# NameFiles = set([x for x in NameFiles if x])
 NameFiles = args.NameFiles
+ResultLog = args.ResultLog
+ChangeLog = args.ChangeLog
+
+# Adding the arrgument (errors="ignore") to slove encoding="utf-8"
+# And also for reading huge files
+# See : https://stackoverflow.com/questions/9233027/unicodedecodeerror-charmap-codec-cant-decode-byte-x-in-position-y-character
 f = open(f"{NameFiles}", "r", errors="ignore")
 NameFiles = f.readlines()
 NameFiles = [x.replace("\n","") for x in NameFiles]
 f.close()
-
-
-
-ResultLog = args.ResultLog
-ChangeLog = args.ChangeLog
-
     
 # Read log Change for Last commit
 f = open(f"{ChangeLog}", "r", errors="ignore")
 ChangeLog =f.readlines()
-file=""
-is_version=False
+f.close()
+
+# A dictionary to store the name of the file as a key and the commitIDs in which the file was modified
+# (If one of its lines containing the words (cereal and version) has changed)
 resultdic={}
+
+# A dictionary to store sql filenames as a key with 
+# commit ids as a value if they exist in the changelog
 sqldic={}
+
+# A set of variables to helping in the processing
+file=""
+is_cerealversion=False
 id=""
+
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
        id=log.split(':')[1].replace('\n','')
@@ -78,16 +87,16 @@ for log in ChangeLog:
                       else:
                           sqldic[file]=f"{id} "
                   break
-        is_version=False       
+        is_cerealversion=False       
         continue
 
-    if is_version: continue
+    if is_cerealversion: continue
     if version in log.lower() and cereal in log.lower():
-        is_version=True
+        is_cerealversion=True
         resultdic[file]+=f"{id} "
         continue
-f.close()
 
+# Writing the final result into a ResultLog.txt file to create an issue for it
 # To remove empty files not have commitIds
 resultdic={k: v for k, v in resultdic.items() if v } # and CheckPR(k,v)
 print(resultdic)
@@ -106,9 +115,3 @@ if len(sqldic) != 0:
     f.close()
     
      
-
-
-
-# For delete Emtpy item/s
-#result=[x for x in result if x]
-#result=[x.replace('/dev/null','') for x in result if x]
