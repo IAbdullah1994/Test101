@@ -41,19 +41,12 @@ args = parser.parse_args()
 
 # NameFiles = str(args.NameFiles).split('\n')
 # NameFiles = set([x for x in NameFiles if x])
-
-
 NameFiles = args.NameFiles
 f = open(f"{NameFiles}", "r", errors="ignore")
 NameFiles = f.readlines()
 NameFiles = set([x for x in NameFiles if x])
 NameFiles = [x.replace("\n","") for x in NameFiles]
 f.close()
-
-
-# for name in NameFiles:
-#     print("Hi")
-#     print("Hi"+name+"issa")
 
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
