@@ -121,4 +121,4 @@ done
 # Updating the BranchCommitID.log to store the last processed commit ID for the branches
 mv BranchCommitID.temp BranchCommitID.log
 
-sleep 100
+sleep 1000
