@@ -32,7 +32,8 @@ fi
 # In addition to any change, sql files happen within a path src\sql
 # It is passed as a parameter within the python file (jenkins\CheckChange.py)
 ResultLog=ResultLog.txt
-NameFiles=NameFiles.txt
+FileNames=FileNames.txt
+ChangeLogs=ChangeLog.txt
 
 # Delete BranchCommitID.temp
 filetemp=BranchCommitID.temp
@@ -84,15 +85,17 @@ for commitBr in "${branches[@]}" ; do
 
           # This command fetches the changelog within a specified range between two commits.
           # /dev/null in the log indicating whether the file was deleted or added.
-          # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID  '^[diff+-]'  
+          # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID 
           ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff --git\|cereal\|version' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
          
           # Store changes log in a text file (ChangeLog.txt) and pass them to the Python file (jenkins\CheckChange.py).
-          echo "$ChangeLog" > ChangeLog.txt
+          echo "$ChangeLog" > $ChangeLogs
          
           # This command fetches the names of the files that have changed between two fields of the two commits.
           GetNameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
-
+          
+          # This processing was added to the filenames to remove duplicates, then it was printed into a text file (FileNames.txt) 
+          # and the filename was passed to the Python script (CheckChange.py).
           # Create an associative array
           declare -A unique_list
           # Loop through the input list and add elements to the associative array
@@ -103,12 +106,12 @@ for commitBr in "${branches[@]}" ; do
 
           # Print the unique elements
           for element in "${unique_array[@]}"; do
-            echo "$element" >> $NameFiles
+            echo "$element" >> $FileNames
           done
          
 
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
-          python jenkins\\CheckChange.py $NameFiles $ResultLog "ChangeLog.txt" 
+          python jenkins\\CheckChange.py $FileNames $ResultLog $ChangeLogs 
 
           # In the case of the Python file (jenkins\CheckChange.py) creating the results file, create an issue.
           if test -f "$ResultLog"; then  
@@ -121,8 +124,8 @@ for commitBr in "${branches[@]}" ; do
               rm $ResultLog
           fi 
           rm val.temp
-          rm ChangeLog.txt
-          rm $NameFiles
+          rm $ChangeLogs
+          rm $FileNames
       fi
       echo "$KEY":"$VALUE" >> BranchCommitID.temp
     else 
