@@ -125,7 +125,7 @@ for commitBr in "${branches[@]}" ; do
               rm $ResultLog
           fi 
           rm val.temp
-          # rm $ChangeLogs
+          rm $ChangeLogs
           rm $FileNames
       fi
       echo "$KEY":"$VALUE" >> BranchCommitID.temp
@@ -136,6 +136,6 @@ for commitBr in "${branches[@]}" ; do
 done
 
 # Updating the BranchCommitID.log to store the last processed commit ID for the branches
-# mv BranchCommitID.temp BranchCommitID.log
+mv BranchCommitID.temp BranchCommitID.log
 
 sleep 1000
