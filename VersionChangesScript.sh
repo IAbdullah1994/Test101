@@ -33,7 +33,7 @@ fi
 # It is passed as a parameter within the python file (jenkins\CheckChange.py)
 ResultLog=ResultLog.txt
 
-# if fiuler job
+# Delete BranchCommitID.temp
 filetemp=BranchCommitID.temp
 if test -f "$filetemp"; then  
     rm $filetemp
