@@ -32,6 +32,7 @@ fi
 # In addition to any change, sql files happen within a path src\sql
 # It is passed as a parameter within the python file (jenkins\CheckChange.py)
 ResultLog=ResultLog.txt
+NameFiles=NameFiles.txt
 
 # Delete BranchCommitID.temp
 filetemp=BranchCommitID.temp
@@ -90,10 +91,11 @@ for commitBr in "${branches[@]}" ; do
           echo "$ChangeLog" > ChangeLog.txt
          
           # This command fetches the names of the files that have changed between two fields of the two commits.
-          NameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
-          echo "$NameFiles" > NameFiles.txt
+          GetNameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
+          echo "$GetNameFiles" > $NameFiles
+
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
-          python jenkins\\CheckChange.py "$NameFiles" $ResultLog "ChangeLog.txt" 
+          python jenkins\\CheckChange.py $NameFiles $ResultLog "ChangeLog.txt" 
 
           # In the case of the Python file (jenkins\CheckChange.py) creating the results file, create an issue.
           if test -f "$ResultLog"; then  
@@ -107,6 +109,7 @@ for commitBr in "${branches[@]}" ; do
           fi 
           rm val.temp
           rm ChangeLog.txt
+          rm $NameFiles
       fi
       echo "$KEY":"$VALUE" >> BranchCommitID.temp
     else 
