@@ -126,8 +126,7 @@ if isDataChange.count != 0:
     f = open(f"{ResultData}", "a")
     body=""
     for v in isDataChange:
-         body+=f"{v} " 
-    f.write(body)
+        f.write(f"{v} " )
     f.close()
     
      

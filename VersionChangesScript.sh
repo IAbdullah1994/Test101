@@ -34,7 +34,7 @@ fi
 ResultLog=ResultLog.txt
 FileNames=FileNames.txt
 ChangeLogs=ChangeLog.txt
-ResultData=ResultData.txt #For path data/system/reports
+ResultData=ResultData.txt # For path data/system/reports
 
 
 # Delete BranchCommitID.temp
