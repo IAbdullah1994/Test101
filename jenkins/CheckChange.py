@@ -121,8 +121,10 @@ if len(sqldic) != 0:
     f.close()
 
 if isDataChange:
-    f = open(f"data.txt", "a")
-    f.write("These SQL files have changed:\n")
+    f = open(f"cmd.bat", "a")
+    f.write('gh issue create --title "Consider Changes in the path data/system/report" --body "" ')
     f.close()
+    os.system(f"cmd.bat")
+    os.system(f"del cmd.bat")
     
      
