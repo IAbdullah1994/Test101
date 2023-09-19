@@ -78,7 +78,7 @@ do
     sleep 5
 done
 
-# If the file exists 9Branches.log), the values are assigned to the "newbranches" parameter,
+# If the file exists (Branches.log), the values are assigned to the "newbranches" parameter,
 # which is present in the VersionChanges job in Jecnkins.
 # This file is passed to this parameter in Post-build Actions,through
 # Add Parameters > Parameters from properties file, And make a choice "Don't trigger if any files are missing"
