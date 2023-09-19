@@ -71,7 +71,7 @@ sqldic={}
 file=""
 is_cerealversion=False
 id=""
-isDataChange=False
+isDataChange=[]
 
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
@@ -91,7 +91,7 @@ for log in ChangeLog:
                           sqldic[file]=f"{id} "
                   break
         if path_data in log:
-            isDataChange=True
+            isDataChange.append(id)
 
         is_cerealversion=False       
         continue
@@ -120,9 +120,12 @@ if len(sqldic) != 0:
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
 
-if isDataChange:
+if isDataChange.count() != 0:
     f = open(f"cmd.bat", "a")
-    f.write('gh issue create --title "Consider Changes in the path data/system/report" --body "" ')
+    body=""
+    for v in isDataChange:
+         body+=f"{v} " 
+    f.write(f'gh issue create --title "Consider Changes in the path data/system/report" --body "{body}" ')
     f.close()
     os.system(f"cmd.bat")
     os.system(f"del cmd.bat")
