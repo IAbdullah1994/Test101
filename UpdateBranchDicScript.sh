@@ -9,7 +9,7 @@ sh=C:/Git/usr/bin/
 
 # This command it work without local repo in local PC
 # It fetches all existing branches in the remote repository along with the last commit ID for each branch
-branches=($( git ls-remote --heads  https://github.com/DevIssaAb/Test101.git))
+branches=($( git ls-remote --heads  https://github.com/IAbdullah1994/Test101.git))
 
 # if LastBranches.log is not exit
 # Add all branches and exit 0
