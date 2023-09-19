@@ -31,8 +31,8 @@ diff="diff --git "
 version="version"
 cereal="cereal"
 path_sql="test/sql"
-path_data="/data/system/reports"
 ex=".sql"
+path_data="/data/system/reports"
 
 # Instantiate the parser
 # Get the changed files
@@ -67,7 +67,6 @@ resultdic={}
 # A dictionary to store sql filenames as a key with 
 # commit ids as a value if they exist in the changelog
 sqldic={}
-
 
 # A set of variables to helping in the processing
 file=""
