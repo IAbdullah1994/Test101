@@ -40,10 +40,12 @@ parser = argparse.ArgumentParser(description='Optional app description')
 parser.add_argument('NameFiles', help='Change log')
 parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
+parser.add_argument('ResultData')
 args = parser.parse_args()
 NameFiles = args.NameFiles
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
+ResultData = args.ResultData
 
 # Adding the arrgument (errors="ignore") to slove encoding="utf-8"
 # And also for reading huge files
@@ -120,14 +122,12 @@ if len(sqldic) != 0:
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
 
-if isDataChange.count() != 0:
-    f = open(f"cmd.bat", "a")
+if isDataChange.count != 0:
+    f = open(f"{ResultData}", "a")
     body=""
     for v in isDataChange:
          body+=f"{v} " 
-    f.write(f'gh issue create --title "Consider Changes in the path data/system/report" --body "{body}" ')
+    f.write(body)
     f.close()
-    os.system(f"cmd.bat")
-    os.system(f"del cmd.bat")
     
      
