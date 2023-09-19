@@ -73,7 +73,7 @@ sqldic={}
 file=""
 is_cerealversion=False
 id=""
-isDataChange=[]
+dataChangeIds=[]
 
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
@@ -93,7 +93,7 @@ for log in ChangeLog:
                           sqldic[file]=f"{id} "
                   break
         if path_data in log:
-            isDataChange.append(id)
+            dataChangeIds.append(id)
 
         is_cerealversion=False       
         continue
@@ -122,10 +122,11 @@ if len(sqldic) != 0:
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
 
-if isDataChange.count != 0:
+if dataChangeIds.count != 0:
+    dataChangeIds = set(dataChangeIds)
     f = open(f"{ResultData}", "a")
     f.write(f"{path_data}:\n")
-    for v in isDataChange:
+    for v in dataChangeIds:
         f.write(f"{v} ")
     f.close()
     
