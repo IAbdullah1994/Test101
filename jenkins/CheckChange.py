@@ -31,6 +31,7 @@ diff="diff --git "
 version="version"
 cereal="cereal"
 path_sql="test/sql"
+path_data="/data/system/reports"
 ex=".sql"
 
 # Instantiate the parser
@@ -65,10 +66,12 @@ resultdic={}
 # commit ids as a value if they exist in the changelog
 sqldic={}
 
+
 # A set of variables to helping in the processing
 file=""
 is_cerealversion=False
 id=""
+isDataChange=False
 
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
@@ -87,6 +90,9 @@ for log in ChangeLog:
                       else:
                           sqldic[file]=f"{id} "
                   break
+        if path_data in log:
+            isDataChange=True
+
         is_cerealversion=False       
         continue
 
@@ -112,6 +118,11 @@ if len(sqldic) != 0:
     f = open(f"{ResultLog}", "a")
     f.write("These SQL files have changed:\n")
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
+    f.close()
+
+if isDataChange:
+    f = open(f"data.txt", "a")
+    f.write("These SQL files have changed:\n")
     f.close()
     
      
