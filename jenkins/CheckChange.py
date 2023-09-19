@@ -32,7 +32,7 @@ version="version"
 cereal="cereal"
 path_sql="test/sql"
 ex=".sql"
-path_data="/data/system/reports"
+path_data="data/system/reports"
 
 # Instantiate the parser
 # Get the changed files
@@ -90,9 +90,11 @@ for log in ChangeLog:
                           sqldic[file]+=f"{id} "
                       else:
                           sqldic[file]=f"{id} "
+                  
+                  # Check if data/system/reports changing
+                  if file.startswith(path_data):
+                      dataChangeIds.append(id)
                   break
-        if path_data in log:
-            dataChangeIds.append(id)
 
         is_cerealversion=False       
         continue
