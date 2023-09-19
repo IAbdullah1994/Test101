@@ -124,9 +124,9 @@ if len(sqldic) != 0:
 
 if isDataChange.count != 0:
     f = open(f"{ResultData}", "a")
-    f.write(f"[{path_data}]:\n")
+    f.write(f"{path_data}:\n")
     for v in isDataChange:
-        f.write(f"{v} " )
+        f.write(f"{v} ")
     f.close()
     
      
