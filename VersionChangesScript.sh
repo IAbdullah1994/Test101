@@ -5,7 +5,7 @@
 # Runs the Python file (jenkins\CheckChange.py) if any branch has new changes
 # It creates an issue if there are files in which a line containing the phrase (version) has been changed, 
 # or the SQL files in the path src\sql have been changed
-###
+####
 
 # To use shell git functions
 sh=C:/Git/usr/bin/
@@ -34,8 +34,7 @@ fi
 ResultLog=ResultLog.txt
 FileNames=FileNames.txt
 ChangeLogs=ChangeLog.txt
-ResultData=ResultData.txt # For path data/system/reports
-
+ResultData=ResultData.txt # For check any file change in the path data/system/reports
 
 # Delete BranchCommitID.temp
 filetemp=BranchCommitID.temp
@@ -51,7 +50,6 @@ for commitBr in "${LastCommitID[@]}" ; do
     VALUE=${commitBr#*:}
     newmap["$KEY"]="$VALUE"
 done
-
 
 # $newbranches: a parameter defined in the VersionChanges job ,
 # that stores any new branches  the UpdateBranchDic job captures along with their last commit IDs
@@ -134,6 +132,7 @@ for commitBr in "${branches[@]}" ; do
               gh issue create --title "Consider incrementing report version branch: $KEY" --body "$result"  
               rm $ResultData
           fi 
+
           rm val.temp
           rm $ChangeLogs
           rm $FileNames
