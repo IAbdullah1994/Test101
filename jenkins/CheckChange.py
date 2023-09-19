@@ -123,7 +123,7 @@ if len(sqldic) != 0:
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
 
-if dataChangeIds.count != 0:
+if len(dataChangeIds) != 0:
     dataChangeIds = set(dataChangeIds)
     f = open(f"{ResultData}", "a")
     f.write(f"{path_data}:\n")
