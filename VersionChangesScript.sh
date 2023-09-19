@@ -131,7 +131,7 @@ for commitBr in "${branches[@]}" ; do
           # In the case of the Python file (jenkins\CheckChange.py) creating the results ResultData.txt file, create an issue.
           if test -f "$ResultData"; then  
               result="$(<$ResultData)"
-              gh issue create --title "Consider incrementing minor version branch: $KEY" --body "$result"  
+              gh issue create --title "Consider incrementing report version branch: $KEY" --body "$result"  
               rm $ResultData
           fi 
           rm val.temp
