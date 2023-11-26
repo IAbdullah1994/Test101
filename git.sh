@@ -9,4 +9,4 @@ git add "test\a_b\b.txt"
 git add "jenkins\*.*"
 git add git.sh
 git commit -m "Test Change Version From Master"
-git push origin2 master -f
+git push origin master 
