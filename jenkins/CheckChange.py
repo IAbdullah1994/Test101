@@ -32,7 +32,6 @@ version="version"
 cereal="cereal"
 path_sql="test/sql"
 ex=".sql"
-path_data="data/system/reports"
 
 # Instantiate the parser
 # Get the changed files
@@ -40,12 +39,10 @@ parser = argparse.ArgumentParser(description='Optional app description')
 parser.add_argument('NameFiles', help='Change log')
 parser.add_argument('ResultLog')
 parser.add_argument('ChangeLog')
-parser.add_argument('ResultData')
 args = parser.parse_args()
 NameFiles = args.NameFiles
 ResultLog = args.ResultLog
 ChangeLog = args.ChangeLog
-ResultData = args.ResultData
 
 # Adding the arrgument (errors="ignore") to slove encoding="utf-8"
 # And also for reading huge files
@@ -72,7 +69,7 @@ sqldic={}
 file=""
 is_cerealversion=False
 id=""
-dataChangeIds=[]
+
 
 for log in ChangeLog:
     if log.startswith("diff --gitid:"):
@@ -123,12 +120,4 @@ if len(sqldic) != 0:
     [f.write(f'{k} {v} \n') for k, v in sqldic.items() ]
     f.close()
 
-if len(dataChangeIds) != 0:
-    dataChangeIds = set(dataChangeIds)
-    f = open(f"{ResultData}", "a")
-    f.write(f"{path_data}:\n")
-    for v in dataChangeIds:
-        f.write(f"{v} ")
-    f.close()
-    
      

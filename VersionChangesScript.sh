@@ -34,7 +34,7 @@ fi
 ResultLog=ResultLog.txt
 FileNames=FileNames.txt
 ChangeLogs=ChangeLog.txt
-ResultData=ResultData.txt # For check any file change in the path data/system/reports
+
 
 # Delete BranchCommitID.temp
 filetemp=BranchCommitID.temp
@@ -113,7 +113,7 @@ for commitBr in "${branches[@]}" ; do
          
 
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
-          python jenkins\\CheckChange.py $FileNames $ResultLog $ChangeLogs $ResultData
+          python jenkins\\CheckChange.py $FileNames $ResultLog $ChangeLogs
 
           # In the case of the Python file (jenkins\CheckChange.py) creating the results file, create an issue.
           if test -f "$ResultLog"; then  
@@ -124,13 +124,6 @@ for commitBr in "${branches[@]}" ; do
 
               gh issue create --title "Consider incrementing minor version branch: $KEY" --body "$result"  
               rm $ResultLog
-          fi 
-
-          # In the case of the Python file (jenkins\CheckChange.py) creating the results ResultData.txt file, create an issue.
-          if test -f "$ResultData"; then  
-              result="$(<$ResultData)"
-              gh issue create --title "Consider incrementing report version branch: $KEY" --body "$result"  
-              rm $ResultData
           fi 
 
           rm val.temp
