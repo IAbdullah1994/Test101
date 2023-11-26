@@ -81,18 +81,13 @@ for log in ChangeLog:
                   if not file in resultdic.keys():
                       resultdic[file]=""
                   
-                  # Check if test/sql/*.sql changing
+                  # Check if src/sql/*.sql changing
                   if file.startswith(path_sql) and file.endswith(ex):
                       if file in sqldic.keys():
                           sqldic[file]+=f"{id} "
                       else:
                           sqldic[file]=f"{id} "
-                  
-                  # Check if data/system/reports changing
-                  if file.startswith(path_data):
-                      dataChangeIds.append(id)
                   break
-
         is_cerealversion=False       
         continue
 
