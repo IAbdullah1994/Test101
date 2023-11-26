@@ -1,10 +1,10 @@
 ####
-# This script it work in the job (VersionChanges) in Jenkins
-# It checks if new changes have occurred in existing branches in GitHub 
-# by comparing them to the last processing of these branches by this job (VersionChanges).
-# Runs the Python file (jenkins\CheckChange.py) if any branch has new changes
-# It creates an issue if there are files in which a line containing the phrase (version) has been changed, 
-# or the SQL files in the path src\sql have been changed
+# This script works in VersionChanges job in Jenkins
+#  - It checks if new changes have occurred in existing branches in GitHub 
+#    by comparing them to the last processing of these branches by this job (VersionChanges).
+#  - It runs the Python file CheckChange.py if any branch has new changes
+#  - It creates an issue if there are files in which a line containing string 'version' has been changed, 
+#    or any .SQL file in the path src\sql has been changed
 ####
 
 # To use shell git functions
@@ -28,13 +28,12 @@ if ! test -f "BranchCommitID.log"; then
 fi
 
 # It stores all the files for each branch that occurred in one of 
-# its lines containing the word (version) on a change,
+# its lines containing the string 'version' on a change,
 # In addition to any change, sql files happen within a path src\sql
 # It is passed as a parameter within the python file (jenkins\CheckChange.py)
 ResultLog=ResultLog.txt
 FileNames=FileNames.txt
 ChangeLogs=ChangeLog.txt
-
 
 # Delete BranchCommitID.temp
 filetemp=BranchCommitID.temp
@@ -51,10 +50,10 @@ for commitBr in "${LastCommitID[@]}" ; do
     newmap["$KEY"]="$VALUE"
 done
 
-# $newbranches: a parameter defined in the VersionChanges job ,
-# that stores any new branches  the UpdateBranchDic job captures along with their last commit IDs
-# In order to know the commit ID of the parent branch of the new branch.
-# These new branches are read, if they exist, and added to the previously defined dictionary (newmap).
+# $newbranches: a parameter defined in the VersionChanges job 
+# that stores any new branches the UpdateBranchDic job captures along with their last commit IDs
+# In order to know the commit ID of the parent branch of the new branch
+# These new branches are read, if exist, and added to the previously defined dictionary (newmap).
 if  [[ -n $newbranches ]]; then  
     newbranches=(${newbranches// / })
     for branch in ${newbranches[@]}; do
@@ -65,7 +64,7 @@ if  [[ -n $newbranches ]]; then
     done
 fi
 
-# Branches coming from GitHub are compared against a dictionary 
+# Branches from GitHub are compared against a dictionary 
 # to see if new commits have been added to those branches 
 # so that they are processed within the Python file (jenkins\CheckChange.py)
 # Note: New branches are not processed unless they are present in the parameter $newbranches
@@ -75,7 +74,7 @@ for commitBr in "${branches[@]}" ; do
     echo "$KEY" @ "$VALUE"
     if test ${newmap["$KEY"]}
     then
-      # git checkout $VALUE
+      #git checkout $VALUE
       val=${newmap[$KEY]}
       if [ $VALUE != $val ]; then
 
@@ -83,19 +82,20 @@ for commitBr in "${branches[@]}" ; do
           echo $val > val.temp
           val=$(<val.temp)
 
+
           # This command fetches the changelog within a specified range between two commits.
           # /dev/null in the log indicating whether the file was deleted or added.
-          # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID 
-          # The subcommand  ("$sh"grep -i 'diff --git\|cereal\|version') is used to display only the lines containing the words (diff --git OR cereal OR version) inside Log regardless if uppercase or lowercase letters
+          # --pretty=format:'diff --gitid:%H' used to add a commit id in the log to see where the file has changed commitID
+          # The subcommand  (grep -i 'diff --git\|cereal\|version') is used to display only the lines containing the words (diff --git OR cereal OR version) inside Log regardless if uppercase or lowercase letters
           # grep -i -e 'diff --git' -e 'cereal\|version'$ 
-          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff --git\|cereal\|version'  | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)') # 
-         
+          ChangeLog=$(git log --pretty=format:'diff --gitid:%H'  -p $val...$VALUE | grep '^[diff+-]'  | grep -i 'diff --git\|cereal\|version' | grep -Ev '/dev/null|^(--- a/|\+\+\+ b/)')
+          
           # Store changes log in a text file (ChangeLog.txt) and pass them to the Python file (jenkins\CheckChange.py).
-          echo "$ChangeLog" > $ChangeLogs
+          echo "$ChangeLog" > $ChangeLogs 
           
           # This command fetches the names of the files that have changed between two fields of the two commits.
           GetNameFiles=$(git log  --pretty="format:" --name-only $val...$VALUE) 
-          
+         
           # This processing was added to the filenames to remove duplicates, then it was printed into a text file (FileNames.txt) 
           # and the filename was passed to the Python script (jenkins\CheckChange.py).
           # Create an associative array
@@ -110,10 +110,9 @@ for commitBr in "${branches[@]}" ; do
           for element in "${unique_array[@]}"; do
             echo "$element" >> $FileNames
           done
-         
 
           # The Python file aims to create a text file ($ResultLog) of the results for which an issue is to be created 
-          python jenkins\\CheckChange.py $FileNames $ResultLog $ChangeLogs
+          python jenkins\\CheckChange.py $FileNames $ResultLog $ChangeLogs 
 
           # In the case of the Python file (jenkins\CheckChange.py) creating the results file, create an issue.
           if test -f "$ResultLog"; then  
@@ -122,22 +121,20 @@ for commitBr in "${branches[@]}" ; do
               # It is not being used at the moment
               author=$(git log -n 1 --pretty=format:%an  $VALUE)
 
-              gh issue create --title "Consider incrementing minor version branch: $KEY" --body "$result"  
+              gh issue create --title "Consider incrementing minor version branch: $KEY" --body "$result" 
               rm $ResultLog
           fi 
-
           rm val.temp
-          rm $ChangeLogs
+          rm $ChangeLogs 
           rm $FileNames
       fi
       echo "$KEY":"$VALUE" >> BranchCommitID.temp
     else 
-      # If the branch coming from the remote repository isn't in the (BranchCommitID.log)
+      # If the branch retrieved from remote repository has not been added yet to BranchCommitID.log
       echo " The branch $KEY Not Found"
     fi
 done
 
-# Updating the BranchCommitID.log to store the last processed commit ID for the branches
+# Update BranchCommitID.log to store the last processed commit ID for branches
 mv BranchCommitID.temp BranchCommitID.log
 echo "Done"
-sleep 1000
